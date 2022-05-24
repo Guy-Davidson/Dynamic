@@ -2,6 +2,7 @@ const fs = require('fs')
 const express = require('express');
 const fileUpload = require('express-fileupload')
 const { v4: uuidv4 } = require('uuid');
+const initAutoScaler = require('./autoScaler')
 
 const app = express();
 app.use(express.urlencoded({extended: true}))
@@ -9,6 +10,7 @@ app.use(express.json())
 app.use(fileUpload())
 
 const inQueue = []
+initAutoScaler(inQueue)
 const outQueue = []
 
 app.get('/', (req, res) => {    
@@ -38,7 +40,7 @@ app.put('/enqueue', async(req, res) => {
             id: id,
             createdAt: Date.now()
         })
-        console.log(inQueue);
+        // console.log(inQueue);
         res.send(id)
     } catch (error) {
         handleError(error); 
