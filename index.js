@@ -1,10 +1,18 @@
 const fs = require('fs')
 const express = require('express');
+const fileUpload = require('express-fileupload')
 const { v4: uuidv4 } = require('uuid');
+
 const app = express();
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+app.use(fileUpload())
+
+const inQueue = []
+const outQueue = []
 
 app.get('/', (req, res) => {    
-    res.send(`<h1>You Are Truly the Greatest!</h1>`)
+    res.send(`<h1>Cloud Computing Dynamic System</h1>`)
 })
 
 app.get('/ips', (req, res) => {    
@@ -22,11 +30,15 @@ app.get('/ips', (req, res) => {
 })
 
 app.put('/enqueue', async(req, res) => {
-    try {
-        const iterations = req.query.iterations
-        const binaryData = req.body
-        const id = uuidv4()        
-
+    try { 
+        const id = uuidv4()                    
+        inQueue.push({
+            iterations: req.query.iterations,
+            binaryDataBuffer: req.files.data.data,
+            id: id,
+            createdAt: Date.now()
+        })
+        console.log(inQueue);
         res.send(id)
     } catch (error) {
         handleError(error); 
@@ -41,4 +53,4 @@ const handleError = (err) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)  
-  }) 
+}) 
