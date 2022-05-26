@@ -43,6 +43,14 @@ const initAutoScaler = async (queue) => {
                                     if (err) console.log(err, err.stack)
                                     else {                                        
                                         let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]
+
+                                        exec(`initWorker.bash ${newWorkerIP}`, { 'shell': true }, (err, stdout, stderr)=> {
+                                            if(err) console.log(err);
+                                            else {
+                                                console.log(stdout);
+                                            }
+                                        })
+
                                         return 
                                     }   
                                   });
@@ -64,11 +72,3 @@ const sleep = (ms) => {
   }
 
 module.exports = initAutoScaler
-
-
-// exec('./e.ps1', {'shell':'powershell.exe'}, (err, stdout, stderr)=> {
-//     if(err) console.log(err);
-//     else {
-//         console.log(stdout);
-//     }
-// })
