@@ -17,19 +17,19 @@ app.get('/', (req, res) => {
     res.send(`<h1>Cloud Computing Dynamic System</h1>`)
 })
 
-app.get('/ips', (req, res) => {    
+// app.get('/ips', (req, res) => {    
 
-    const loadIps = async () => {        
-        fs.readFile('../ips.txt', 'utf8' , (err, data) => {
-            if (err) res.send(err)
-            else {
-                res.send(data)
-            }             
-          })
-    }
+//     const loadIps = async () => {        
+//         fs.readFile('../ips.txt', 'utf8' , (err, data) => {
+//             if (err) res.send(err)
+//             else {
+//                 res.send(data)
+//             }             
+//           })
+//     }
 
-    loadIps()    
-})
+//     loadIps()    
+// })
 
 app.put('/enqueue', async(req, res) => {
     try { 
@@ -39,8 +39,7 @@ app.put('/enqueue', async(req, res) => {
             binaryDataBuffer: req.files.data.data,
             id: id,
             createdAt: Date.now()
-        })
-        // console.log(inQueue);
+        })        
         res.send(id)
     } catch (error) {
         handleError(error); 
