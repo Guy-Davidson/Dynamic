@@ -17,6 +17,11 @@ app.get('/', (req, res) => {
     res.send(`<h1>Cloud Computing Dynamic System</h1>`)
 })
 
+app.get('/isAlive', (req, res) => {    
+    console.log("yes")
+    res.send("ok")
+})
+
 // app.get('/ips', (req, res) => {    
 
 //     const loadIps = async () => {        
