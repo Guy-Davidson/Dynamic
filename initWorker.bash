@@ -1,3 +1,12 @@
+echo "this log came from the bash script"
+
+a = 15
+$a
+exit
+
+
+
+
 # WORKER_IP=$1 
 # KEY_PEM=$(sudo find ../ -name 'Cloud-Computing-*')
 
