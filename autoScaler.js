@@ -18,49 +18,61 @@ const initAutoScaler = async (queue) => {
             let mid = Math.floor(queue.length / 2)
             if(queue[mid] && (Date.now() - queue[mid].createdAt) / 1000 > THRESHOLD && newWorkersCount < WORKERS_LIMIT) {            
                 newWorkersCount += 1                
-                                                
-                ec2.describeKeyPairs((err, data) => {
-                    if (err) console.log("Error", err) 
+
+                exec(`sudo bash ~/app/initWorker.bash`, { 'shell': true }, (err, stdout, stderr)=> {
+                    if(err) console.log(err);
                     else {
-                       
-                       let keys = JSON.stringify(data.KeyPairs)                                        
-                       let keyname = keys[keys.length - 1]["KeyName"]
-
-                       const instanceParams = {
-                            ImageId: "ami-08ca3fed11864d6bb", 
-                            InstanceType: 't2.micro',
-                            KeyName: keyname,
-                            MinCount: 1,
-                            MaxCount: 1
-                        }
-                    
-                        ec2.runInstances(instanceParams).promise()                         
-                            .then((data) => {                                
-                                const instanceId = data.Instances[0].InstanceId
-                                console.log("Created instance", instanceId)
-
-                                ec2.waitFor('instanceRunning', { InstanceIds: [instanceId] } , (err, data) => {
-                                    if (err) console.log(err, err.stack)
-                                    else {                                        
-                                        let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]
-
-                                        console.log(newWorkerIP);
-                                        
-                                        exec(`sudo bash ~/app/initWorker.bash ${newWorkerIP}`, { 'shell': true }, (err, stdout, stderr)=> {
-                                            if(err) console.log(err);
-                                            else {
-                                                console.log(stdout);
-                                            }
-                                        })
-
-                                        return 
-                                    }   
-                                  });
-                                
-                            })
-                            .catch((err) => console.error(err, err.stack))
+                        console.log(stdout);
                     }
-                 });                                
+                })
+
+
+                                                
+                // ec2.describeKeyPairs((err, data) => {
+                //     if (err) console.log("Error", err) 
+                //     else {
+                       
+                //        let keys = JSON.stringify(data.KeyPairs)                                        
+                //        let keyname = keys[keys.length - 1]["KeyName"]
+
+                //        const instanceParams = {
+                //             ImageId: "ami-08ca3fed11864d6bb", 
+                //             InstanceType: 't2.micro',
+                //             KeyName: keyname,
+                //             MinCount: 1,
+                //             MaxCount: 1
+                //         }
+                    
+                //         ec2.runInstances(instanceParams).promise()                         
+                //             .then((data) => {                                
+                //                 const instanceId = data.Instances[0].InstanceId
+                //                 console.log("Created instance", instanceId)
+
+                //                 ec2.waitFor('instanceRunning', { InstanceIds: [instanceId] } , (err, data) => {
+                //                     if (err) console.log(err, err.stack)
+                //                     else {                                        
+                //                         let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]
+
+                //                         console.log(newWorkerIP);
+                                        
+                //                         exec(`sudo bash ~/app/initWorker.bash ${newWorkerIP}`, { 'shell': true }, (err, stdout, stderr)=> {
+                //                             if(err) console.log(err);
+                //                             else {
+                //                                 console.log(stdout);
+                //                             }
+                //                         })
+
+                //                         return 
+                //                     }   
+                //                   });
+                                
+                //             })
+                //             .catch((err) => console.error(err, err.stack))
+                //     }
+                //  });
+                 
+
+
             }
         } else {
             console.log("no need for new works now");
