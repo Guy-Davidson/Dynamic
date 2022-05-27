@@ -18,10 +18,10 @@
 #Get current time in ms to create a unique name.
 # $DateTime = (Get-Date).ToUniversalTime() 
 # $UnixTimeStamp = [System.Math]::Truncate((Get-Date -Date $DateTime -UFormat %s))
-UnixTimeStamp = "123"
 
-KEY_NAME = "Cloud-Computing-" + $UnixTimeStamp
-KEY_PEM = $KEY_NAME + ".pem"
+
+KEY_NAME="Cloud-Computing-123"
+KEY_PEM="$KEY_NAME.pem"
 
 #Create key.
 # aws ec2 create-key-pair --key-name $KEY_NAME --query 'KeyMaterial' --output text > $KEY_PEM
