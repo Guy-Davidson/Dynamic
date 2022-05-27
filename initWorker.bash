@@ -18,7 +18,7 @@
 #Get current time in ms to create a unique name.
 # $DateTime = (Get-Date).ToUniversalTime() 
 # $UnixTimeStamp = [System.Math]::Truncate((Get-Date -Date $DateTime -UFormat %s))
-
+aws configure list
 
 KEY_NAME="Cloud-Computing-123"
 KEY_PEM="$KEY_NAME.pem"
