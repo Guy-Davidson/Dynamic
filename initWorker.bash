@@ -25,8 +25,7 @@ KEY_PEM="$KEY_NAME.pem"
 
 #Create key.
 # aws ec2 create-key-pair --key-name $KEY_NAME --query 'KeyMaterial' --output text > $KEY_PEM
-aws ec2 create-key-pair --key-name $KEY_NAME \
-    | jq -r ".KeyMaterial" > $KEY_PEM
+aws ec2 create-key-pair --key-name $KEY_NAME --query 'KeyMaterial' --output text > $KEY_PEM
 
 # #Create security group.
 # $SEC_GRP = "scriptSG-" + $UnixTimeStamp
