@@ -43,6 +43,8 @@ const initAutoScaler = async (queue) => {
                                     if (err) console.log(err, err.stack)
                                     else {                                        
                                         let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]
+
+                                        console.log(newWorkerIP);
                                         
                                         exec(`sudo bash ~/app/initWorker.bash ${newWorkerIP}`, { 'shell': true }, (err, stdout, stderr)=> {
                                             if(err) console.log(err);

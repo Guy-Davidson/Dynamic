@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 //     loadIps()    
 // })
 
-app.put('/enqueue', async(req, res) => {
+app.put('/enqueue', (req, res) => {
     try { 
         const id = uuidv4()                    
         inQueue.push({
