@@ -1,8 +1,8 @@
-echo "this log came from the bash script"
+# echo "this log came from the bash script"
 
-a = 15
-$a
-exit
+# a = 15
+# $a
+# exit
 
 
 
