@@ -10,15 +10,8 @@ const lunchWorker = () => {
         if (err) console.log("Error", err) 
         else {           
             let keyname = keyData["KeyName"]
-            let keyMaterial = keyData["KeyMaterial"]
-
-            
-            fs.writeFileSync(`${keyname}.pem`, keyMaterial, (err) => {
-                if(err) console.log(err)
-                else console.log("writeFileSync worked");
-            });
-            console.log("writeFileSync worked");
-            return
+            let keyMaterial = keyData["KeyMaterial"]            
+            fs.writeFileSync(`${keyname}.pem`, keyMaterial)
 
             exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
                 if (err) console.log("Error", err) 
