@@ -17,7 +17,7 @@ const lunchWorker = () => {
                 if(err) console.log(err)
                 else console.log("writeFileSync worked");
             });
-            // fs.chmodSync(`${keyname}.pem`, 0o765)
+            console.log("writeFileSync worked");
             return
 
             exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
