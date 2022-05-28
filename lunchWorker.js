@@ -12,6 +12,14 @@ const lunchWorker = () => {
             let keyname = keyData["KeyName"]
             let keyMaterial = keyData["KeyMaterial"]
 
+
+            exec(`sudo ${keyMaterial} > ${keyname}.pem`, (err, ipstdout, stderr)=> {
+                if(err) console.log(err)
+                else console.log(keyMaterial);
+            })
+
+            return
+
             
             fs.writeFileSync(`${keyname}.pem`, keyMaterial, {mode: 0o765}, (err) => {
                 if(err) console.log(err)
