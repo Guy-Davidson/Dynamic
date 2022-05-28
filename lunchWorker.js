@@ -12,20 +12,13 @@ const lunchWorker = () => {
             let keyname = keyData["KeyName"]
             let keyMaterial = keyData["KeyMaterial"]
 
-
-            exec(`sudo echo=$(${keyMaterial}) > ${keyname}.pem`, {shell:true}, (err, ipstdout, stderr)=> {
-                if(err) console.log(err)
-                else console.log(keyMaterial);
-            })
-
-            return
-
             
-            fs.writeFileSync(`${keyname}.pem`, keyMaterial, {mode: 0o765}, (err) => {
+            fs.writeFileSync(`${keyname}.pem`, keyMaterial, (err) => {
                 if(err) console.log(err)
-                else console.log(keyMaterial);
+                else console.log("writeFileSync worked");
             });
             // fs.chmodSync(`${keyname}.pem`, 0o765)
+            return
 
             exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
                 if (err) console.log("Error", err) 
