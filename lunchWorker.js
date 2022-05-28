@@ -13,7 +13,7 @@ const lunchWorker = () => {
             let keyMaterial = keyData["KeyMaterial"]
 
             
-            fs.writeFileSync(`${keyname}.pem`, keyMaterial, 0o765, (err) => {
+            fs.writeFileSync(`${keyname}.pem`, keyMaterial, {mode: 0o765}, (err) => {
                 if(err) console.log(err)
                 else console.log(keyMaterial);
             });
