@@ -11,7 +11,7 @@ const initAutoScaler = async (queue) => {
     let newWorkersCount = 0 
     while(true) {
         console.log("AutoScaler check:");
-        console.log(`inQueue currently has: ${queue.length} jobs waiting to exce.`);
+        console.log(`inQueue currently has: ${queue.length} jobs waiting to execute.`);
         if(queue.length) {
             let mid = Math.floor(queue.length / 2)
             if(queue[mid] && (Date.now() - queue[mid].createdAt) / 1000 > THRESHOLD && newWorkersCount < WORKERS_LIMIT) {            

@@ -31,9 +31,11 @@ app.get('/', (req, res) => {
 //     loadIps()    
 // })
 
+let testCounter = 0
 app.get('/test', (req, res) => {   
-    console.log("test in action"); 
-    res.send(`test ok`)
+    console.log("test in action");
+    testCounter += 1
+    res.send(testCounter)
 })
 
 app.put('/enqueue', (req, res) => {
