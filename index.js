@@ -35,7 +35,7 @@ let testCounter = 0
 app.get('/test', (req, res) => {   
     console.log("test in action");
     testCounter += 1
-    res.send(testCounter)
+    res.send(`${testCounter}`)
 })
 
 app.put('/enqueue', (req, res) => {
