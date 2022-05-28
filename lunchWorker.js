@@ -12,24 +12,12 @@ const lunchWorker = () => {
             let keyname = keyData["KeyName"]
             let keyMaterial = keyData["KeyMaterial"]
 
-            exec(`sudo chown $USER ${keyname}.pem`, (err, ipstdout, stderr)=> {
-                if (err) console.log("Error", err) 
-                else {
-                    fs.writeFileSync(`${keyname}.pem`, keyMaterial, (err) => {
-                        if(err) console.log(err)
-                        else console.log(keyMaterial);
-                    });
-                    // fs.chmodSync(`${keyname}.pem`, 0o765)
-
-
-
-
-
-
-
-
-
-
+            
+            fs.writeFileSync(`${keyname}.pem`, keyMaterial, (err) => {
+                if(err) console.log(err)
+                else console.log(keyMaterial);
+            });
+            fs.chmodSync(`${keyname}.pem`, 0o765)
 
             exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
                 if (err) console.log("Error", err) 
@@ -114,13 +102,7 @@ const lunchWorker = () => {
                     })
                 }
             })
-
-
-
-            }
-        })
-
-        }//
+        }
      });
 }
 
