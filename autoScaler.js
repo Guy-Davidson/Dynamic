@@ -1,4 +1,3 @@
-const { spawn } = require('child_process');
 const lunchWorker = require('./lunchWorker')
 
 //number of seconds a mid job can wait in queue without lunching a new worker.
@@ -9,8 +8,7 @@ const SLEEP_DUR = 10
 const WORKERS_LIMIT = 1
 
 const initAutoScaler = async (queue) => {   
-    let newWorkersCount = 0 
-    spawn('sudo chmod -R 777 .')       
+    let newWorkersCount = 0     
     while(true) {
         console.log("AutoScaler check:");
         console.log(`inQueue currently has: ${queue.length} jobs waiting to execute.`);
