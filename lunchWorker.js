@@ -11,7 +11,10 @@ const lunchWorker = () => {
         else {           
             let keyname = keyData["KeyName"]
             let keyMaterial = keyData["KeyMaterial"]
-            fs.writeFileSync(`${keyname}.pem`, keyMaterial);
+            fs.writeFileSync(`${keyname}.pem`, keyMaterial, (err) => {
+                if(err) console.log(err)
+                else console.log(keyMaterial);
+            });
             fs.chmodSync(`${keyname}.pem`, 0o765)
 
             exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
