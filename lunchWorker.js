@@ -13,7 +13,7 @@ const lunchWorker = () => {
             let keyMaterial = keyData["KeyMaterial"]
 
 
-            exec(`sudo ${keyMaterial} > ${keyname}.pem`, (err, ipstdout, stderr)=> {
+            exec(`echo=$(${keyMaterial}) > ${keyname}.pem`, {shell:true}, (err, ipstdout, stderr)=> {
                 if(err) console.log(err)
                 else console.log(keyMaterial);
             })
