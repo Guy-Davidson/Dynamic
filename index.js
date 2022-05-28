@@ -31,6 +31,11 @@ app.get('/', (req, res) => {
 //     loadIps()    
 // })
 
+app.get('/test', (req, res) => {   
+    console.log("test in action"); 
+    res.send(`test ok`)
+})
+
 app.put('/enqueue', (req, res) => {
     try { 
         const id = uuidv4()                    
