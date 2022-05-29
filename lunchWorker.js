@@ -6,6 +6,8 @@ const { exec } = require('child_process');
 const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 
 const lunchWorker = () => {
+    fs.writeFileSync(`hello.txt`, "hello world!", {mode: 0o400})    
+    return
     ec2.createKeyPair({ KeyName: `Cloud-Computing-${Date.now()}` }, (err, keyData) => {
         if (err) console.log("Error", err) 
         else {           
