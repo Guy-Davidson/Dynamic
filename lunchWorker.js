@@ -72,7 +72,7 @@ const lunchWorker = () => {
                                                     let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]            
                                                     console.log(newWorkerIP);
                                                     
-                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ips.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
+                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
                                                         if(err) console.log(err);
                                                         else {
                                                             console.log("scp bash script successfull.");
