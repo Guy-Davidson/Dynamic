@@ -85,7 +85,7 @@ const lunchWorker = () => {
                                                                                 else {
                                                                                     console.log("scp bash script successfull.");
                                                                                     console.log("Waiting for Worker to init...");                                                                        
-                                                                                    exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "aws configure list"`, {shell:true},(err, stdout, stderr)=> {
+                                                                                    exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "ls"`, {shell:true},(err, stdout, stderr)=> {
                                                                                     if(err) console.log(err);
                                                                                     else {                                                                                                                                                                    
                                                                                         exec(`ssh -T -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "cd app && pm2 start index.js"`, {shell:true},(err, stdout, stderr)=> {
