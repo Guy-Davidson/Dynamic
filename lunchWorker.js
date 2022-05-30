@@ -64,7 +64,7 @@ const lunchWorker = () => {
                                         .then((data) => {                                
                                             const instanceId = data.Instances[0].InstanceId
                                             console.log("Created instance", instanceId)
-                                            fs.writeFileSync(`workerId.txt`, instanceId, {mode: 0o400})   
+                                            fs.writeFileSync(`workerId.txt`, instanceId, {mode: 0o700})   
             
                                             ec2.waitFor('instanceRunning', { InstanceIds: [instanceId] } , (err, data) => {
                                                 if (err) console.log(err, err.stack)
