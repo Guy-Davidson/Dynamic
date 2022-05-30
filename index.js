@@ -17,13 +17,6 @@ app.get('/', (req, res) => {
     res.send(`<h1>Cloud Computing Dynamic System</h1>`)
 })
 
-let testCounter = 0
-app.get('/test', (req, res) => {   
-    console.log("test in action");
-    testCounter += 1
-    res.send(`${testCounter}`)
-})
-
 app.put('/enqueue', (req, res) => {
     try { 
         const id = uuidv4()                    
@@ -54,17 +47,8 @@ app.get('/dequeue', (req, res) => {
 
 app.put('/enqueueCompleted', (req, res) => {
     try { 
-        let job = req.body                         
-        console.log(job);
-        res.send("ok")
-        return
-        inQueue.push({
-            iterations: req.query.iterations,
-            binaryDataBuffer: req.files.data.data,
-            id: id,
-            createdAt: Date.now()
-        })        
-        res.send(id)
+        outQueue.push(req.body)
+        res.send("ok")        
     } catch (error) {
         handleError(error); 
     } 

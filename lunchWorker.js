@@ -74,14 +74,30 @@ const lunchWorker = () => {
                                                     exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
                                                         if(err) console.log(err);
                                                         else {
-                                                            console.log("scp bash script successfull.");
-                                                            console.log("Waiting for Worker to init...");                                                                        
-                                                            exec(`ssh -T -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "sudo bash ~/onWorkerScript.bash"`, {shell:true},(err, stdout, stderr)=> {
-                                                            if(err) console.log(err);
-                                                            else {                                                                            
-                                                                console.log("Worker Lunched successfully.");
-                                                            }
-                                                        })
+                                                            exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "mkdir .aws"`, (err, stdout, stderr)=> {
+                                                                if(err) console.log(err);    
+                                                                else {
+                                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ../.aws/credentials ../.aws/config ubuntu@${newWorkerIP}:~/.aws/`, (err, stdout, stderr)=> {
+                                                                        if(err) console.log(err);  
+                                                                        else {
+                                                                            exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "aws configure list"`, (err, stdout, stderr)=> { 
+                                                                                if(err) console.log(err);  
+                                                                                else {
+                                                                                    console.log("scp bash script successfull.");
+                                                                                    console.log("Waiting for Worker to init...");                                                                        
+                                                                                    exec(`ssh -T -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "sudo bash ~/onWorkerScript.bash"`, {shell:true},(err, stdout, stderr)=> {
+                                                                                    if(err) console.log(err);
+                                                                                    else {                                                                            
+                                                                                        console.log("Worker Lunched successfully.");
+                                                                                    }
+                                                                                    })
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    })
+
+                                                                }
+                                                            })
                                                         }
                                                     })                                        
                                                 }   
