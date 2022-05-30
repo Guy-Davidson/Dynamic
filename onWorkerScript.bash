@@ -10,5 +10,4 @@ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo npm i -g pm2 
 npm i
-pm2 start index.js
 exit

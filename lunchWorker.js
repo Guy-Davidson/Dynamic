@@ -80,15 +80,20 @@ const lunchWorker = () => {
                                                                     exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ../.aws/credentials ../.aws/config ubuntu@${newWorkerIP}:~/.aws/`, (err, stdout, stderr)=> {
                                                                         if(err) console.log(err);  
                                                                         else {
-                                                                            exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "aws configure list"`, (err, stdout, stderr)=> { 
-                                                                                if(err) console.log(err);  
+                                                                            exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "sudo bash ~/onWorkerScript.bash"`, (err, stdout, stderr)=> { 
+                                                                                if(err) console.log(err);   
                                                                                 else {
                                                                                     console.log("scp bash script successfull.");
                                                                                     console.log("Waiting for Worker to init...");                                                                        
-                                                                                    exec(`ssh -T -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "sudo bash ~/onWorkerScript.bash"`, {shell:true},(err, stdout, stderr)=> {
+                                                                                    exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "aws configure list"`, {shell:true},(err, stdout, stderr)=> {
                                                                                     if(err) console.log(err);
-                                                                                    else {                                                                            
-                                                                                        console.log("Worker Lunched successfully.");
+                                                                                    else {                                                                                                                                                                    
+                                                                                        exec(`ssh -T -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "cd app && pm2 start index.js"`, {shell:true},(err, stdout, stderr)=> {
+                                                                                            if(err) console.log(err);
+                                                                                            else {
+                                                                                                console.log(console.log("Worker Lunched successfully."));
+                                                                                            }
+                                                                                        })
                                                                                     }
                                                                                     })
                                                                                 }
