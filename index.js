@@ -2,7 +2,7 @@ const fs = require('fs')
 const express = require('express');
 const fileUpload = require('express-fileupload')
 const { v4: uuidv4 } = require('uuid');
-const initAutoScaler = require('./autoScaler')
+const {initAutoScaler, newWorkersCount} = require('./autoScaler')
 
 const app = express();
 app.use(express.urlencoded({extended: true}))
@@ -57,7 +57,7 @@ app.put('/enqueueCompleted', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-    res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue}`)
+    res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue.length}, lunched: ${newWorkersCount} workers.`)
 })
 
 const PORT = process.env.PORT || 5000

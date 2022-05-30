@@ -5,10 +5,10 @@ const THRESHOLD = 5
 //number of seconds in between each queue check.
 const SLEEP_DUR = 10
 //maximum number of worker lunches.
-const WORKERS_LIMIT = 1
+const WORKERS_LIMIT = 3
+let newWorkersCount = 0     
 
-const initAutoScaler = async (queue) => {   
-    let newWorkersCount = 0     
+const initAutoScaler = async (queue) => {       
     while(true) {
         console.log("AutoScaler check:");
         console.log(`inQueue currently has: ${queue.length} jobs waiting to execute.`);
@@ -30,4 +30,4 @@ const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-module.exports = initAutoScaler
+module.exports = {initAutoScaler, newWorkersCount}
