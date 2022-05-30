@@ -6,7 +6,7 @@ const THRESHOLD = 5
 const SLEEP_DUR = 10
 //maximum number of worker lunches.
 const WORKERS_LIMIT = 3
-let newWorkersCount = 0     
+let count = { workers: 0 }     
 
 const initAutoScaler = async (queue) => {       
     while(true) {
@@ -14,9 +14,9 @@ const initAutoScaler = async (queue) => {
         console.log(`inQueue currently has: ${queue.length} jobs waiting to execute.`);
         if(queue.length) {
             let mid = Math.floor(queue.length / 2)
-            if(queue[mid] && (Date.now() - queue[mid].createdAt) / 1000 > THRESHOLD && newWorkersCount < WORKERS_LIMIT) {            
+            if(queue[mid] && (Date.now() - queue[mid].createdAt) / 1000 > THRESHOLD && count.workers < WORKERS_LIMIT) {            
                 console.log("Lunching a new Worker!");
-                newWorkersCount += 1                
+                count.workers += 1                
                 lunchWorker()
             } else { console.log("No need for new works.") }
         } else {
@@ -30,4 +30,4 @@ const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-module.exports = {initAutoScaler, newWorkersCount}
+module.exports = {initAutoScaler, count}
