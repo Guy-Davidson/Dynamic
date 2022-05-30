@@ -64,6 +64,7 @@ const lunchWorker = () => {
                                         .then((data) => {                                
                                             const instanceId = data.Instances[0].InstanceId
                                             console.log("Created instance", instanceId)
+                                            fs.writeFileSync(`workerId.txt`, instanceId, {mode: 0o400})   
             
                                             ec2.waitFor('instanceRunning', { InstanceIds: [instanceId] } , (err, data) => {
                                                 if (err) console.log(err, err.stack)
@@ -71,7 +72,7 @@ const lunchWorker = () => {
                                                     let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]            
                                                     console.log(newWorkerIP);
                                                     
-                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
+                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt workerId.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
                                                         if(err) console.log(err);
                                                         else {
                                                             exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "mkdir .aws"`, (err, stdout, stderr)=> {

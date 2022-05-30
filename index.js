@@ -33,6 +33,7 @@ app.put('/enqueue', (req, res) => {
 })
 
 app.get('/dequeue', (req, res) => {
+    console.log("dequeue in action");
     try {         
         if(!inQueue.length) {
             res.send("empty")
