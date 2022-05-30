@@ -52,6 +52,24 @@ app.get('/dequeue', (req, res) => {
     } 
 })
 
+app.put('/enqueueCompleted', (req, res) => {
+    try { 
+        let job = req.body                         
+        console.log(job);
+        res.send("ok")
+        return
+        inQueue.push({
+            iterations: req.query.iterations,
+            binaryDataBuffer: req.files.data.data,
+            id: id,
+            createdAt: Date.now()
+        })        
+        res.send(id)
+    } catch (error) {
+        handleError(error); 
+    } 
+})
+
 const PORT = process.env.PORT || 5000
 
 const handleError = (err) => {
