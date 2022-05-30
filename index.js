@@ -33,7 +33,7 @@ app.put('/enqueue', (req, res) => {
 })
 
 app.get('/dequeue', (req, res) => {
-    console.log("dequeue in action");
+    console.log("dequeue in action.");
     try {         
         if(!inQueue.length) {
             res.send("empty")
@@ -47,12 +47,17 @@ app.get('/dequeue', (req, res) => {
 })
 
 app.put('/enqueueCompleted', (req, res) => {
+    console.log("enqueueCompleted in action.");
     try { 
         outQueue.push(req.body)
         res.send("ok")        
     } catch (error) {
         handleError(error); 
     } 
+})
+
+app.get('/info', (req, res) => {
+    res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue}`)
 })
 
 const PORT = process.env.PORT || 5000
