@@ -17,20 +17,6 @@ app.get('/', (req, res) => {
     res.send(`<h1>Cloud Computing Dynamic System</h1>`)
 })
 
-// app.get('/ips', (req, res) => {    
-
-//     const loadIps = async () => {        
-//         fs.readFile('../ips.txt', 'utf8' , (err, data) => {
-//             if (err) res.send(err)
-//             else {
-//                 res.send(data)
-//             }             
-//           })
-//     }
-
-//     loadIps()    
-// })
-
 let testCounter = 0
 app.get('/test', (req, res) => {   
     console.log("test in action");
@@ -48,6 +34,15 @@ app.put('/enqueue', (req, res) => {
             createdAt: Date.now()
         })        
         res.send(id)
+    } catch (error) {
+        handleError(error); 
+    } 
+})
+
+app.put('/dequeue', (req, res) => {
+    try { 
+        const job = inQueue.shift()
+        res.send(job)
     } catch (error) {
         handleError(error); 
     } 

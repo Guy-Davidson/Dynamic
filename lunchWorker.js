@@ -17,8 +17,7 @@ const lunchWorker = () => {
                 if (err) console.log("Error", err) 
                 else {
                     let myIp = ipstdout
-                    myIp = myIp.slice(0, myIp.length - 1)
-                    // fs.writeFileSync(`ips.txt`, `A:${myIp},B:${myIp}`);
+                    myIp = myIp.slice(0, myIp.length - 1)                    
                     let sgName = `scriptSG-${Date.now()}`
                     
                     let sgParams = {
