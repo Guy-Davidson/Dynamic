@@ -75,20 +75,24 @@ const lunchWorker = () => {
                                                     exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt workerId.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
                                                         if(err) console.log(err);
                                                         else {
+                                                            console.log(stdout);
                                                             exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "mkdir .aws"`, (err, stdout, stderr)=> {
                                                                 if(err) console.log(err);    
                                                                 else {
+                                                                    console.log(stdout);
                                                                     exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ../.aws/credentials ../.aws/config ubuntu@${newWorkerIP}:~/.aws/`, (err, stdout, stderr)=> {
                                                                         if(err) console.log(err);  
                                                                         else {
+                                                                            console.log(stdout);
                                                                             exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "sudo bash ~/onWorkerScript.bash"`, (err, stdout, stderr)=> { 
                                                                                 if(err) console.log(err);   
                                                                                 else {
-                                                                                    console.log("scp bash script successfull.");
+                                                                                    console.log(stdout);
                                                                                     console.log("Waiting for Worker to init...");                                                                        
                                                                                     exec(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "ls"`, {shell:true},(err, stdout, stderr)=> {
                                                                                     if(err) console.log(err);
                                                                                     else {                                                                                                                                                                    
+                                                                                        console.log(stdout);
                                                                                         exec(`ssh -T -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "cd app && pm2 start index.js"`, {shell:true},(err, stdout, stderr)=> {
                                                                                             if(err) console.log(err);
                                                                                             else {
