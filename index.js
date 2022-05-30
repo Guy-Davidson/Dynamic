@@ -47,7 +47,7 @@ app.get('/dequeue', (req, res) => {
 })
 
 app.put('/enqueueCompleted', (req, res) => {
-    console.log("enqueueCompleted in action.");
+    console.log(`enqueueCompleted in action. attempts: ${req.query.attempts}`);
     try { 
         outQueue.push(req.body)
         res.send("ok")        
