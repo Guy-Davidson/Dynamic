@@ -39,8 +39,9 @@ app.put('/enqueue', (req, res) => {
     } 
 })
 
-app.put('/dequeue', (req, res) => {
-    try { 
+app.get('/dequeue', (req, res) => {
+    try {         
+        console.log('dequeuing in action.');
         const job = inQueue.shift()
         res.send(job)
     } catch (error) {
