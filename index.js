@@ -58,7 +58,7 @@ app.put('/enqueueCompleted', (req, res) => {
 
 app.post('/pullCompleted', (req, res) => {    
     try { 
-        let top = req.query.top 
+        let top = parseInt(req.query.top)
         let compJobs = []
 
         while(top && outQueue.length) {
