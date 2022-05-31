@@ -95,7 +95,7 @@ app.post('/pullCompleted', (req, res) => {
 })
 
 app.get('/ip', (req, res) => {
-    console.log(req.headers['host']);
+    console.log(req.headers);
     res.send("ok")
 })
 
