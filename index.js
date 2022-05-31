@@ -77,7 +77,7 @@ app.post('/pullCompleted', async (req, res) => {
                 .map(ip => ip.split(':')[1])
                 console.log(ipsArr);
 
-                exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
+                exec('curl https://checkip.amazonaws.com', async (err, ipstdout, stderr)=> {
                     if (err) console.log("Error", err) 
                     else {
                         let myIp = ipstdout.slice(0, ipstdout.length - 1)                        
