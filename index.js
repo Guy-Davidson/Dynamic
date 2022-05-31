@@ -95,7 +95,7 @@ app.post('/pullCompleted', (req, res) => {
 })
 
 app.get('/ip', (req, res) => {
-    console.log(req.headers);
+    console.log(req.headers['x-real-ip']);
     res.send("ok")
 })
 
