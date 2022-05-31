@@ -3,7 +3,8 @@ const express = require('express');
 const fileUpload = require('express-fileupload')
 const { v4: uuidv4 } = require('uuid');
 const { exec } = require('child_process');
-const {initAutoScaler, count} = require('./autoScaler')
+const {initAutoScaler, count} = require('./autoScaler');
+const { default: axios } = require('axios');
 
 const app = express();
 app.use(express.urlencoded({extended: true}))
@@ -57,8 +58,9 @@ app.put('/enqueueCompleted', (req, res) => {
     } 
 })
 
-app.post('/pullCompleted', (req, res) => {    
-    try { 
+app.post('/pullCompleted', async (req, res) => {    
+    try {
+
         let top = parseInt(req.query.top)
         let compJobs = []
 
@@ -73,31 +75,55 @@ app.post('/pullCompleted', (req, res) => {
                 .trim()
                 .split(',')
                 .map(ip => ip.split(':')[1])
+                console.log(ipsArr);
 
                 exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
                     if (err) console.log("Error", err) 
                     else {
-                        let myIp = ipstdout
-                        myIp = myIp.slice(0, myIp.length - 1)
+                        let myIp = ipstdout.slice(0, myIp.length - 1)                        
                         
                         //on A otherIp refers to B, and vice versa. 
                         let otherIp = ipsArr.filter(ip => ip !== myIp)[0]
 
-                        console.log(req);
+                        console.log(myIp);
+                        console.log(otherIp);
+
+                        // await axios
+                        //     .post(`pullCompleted`)
+                        //     .post(`http://${otherIp}:5000/internalPullCompleted?top=${top}`) 
+                        //     .then(res => {
+                        //         compJobs = compJobs.concat(res.data)
+                        //         res.send(compJobs)        
+                        //     })
 
                     }
                 })
         }
+
+        res.send(compJobs)        
+
+    } catch (error) {
+        handleError(error); 
+    } 
+})
+
+app.post('/internalPullCompleted', (req, res) => {    
+    try { 
+        let top = parseInt(req.query.top)
+        let compJobs = []
+
+        while(top && outQueue.length) {
+            compJobs.push(outQueue.shift())    
+            top--
+        }
+        
         res.send(compJobs)        
     } catch (error) {
         handleError(error); 
     } 
 })
 
-app.get('/ip', (req, res) => {
-    console.log(req.headers['x-real-ip']);
-    res.send("ok")
-})
+
 
 app.get('/info', (req, res) => {
     res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue.length}, lunched: ${count.workers} workers.`)
