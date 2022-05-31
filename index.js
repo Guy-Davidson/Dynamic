@@ -90,10 +90,11 @@ app.post('/pullCompleted', async (req, res) => {
 
                         await axios                            
                             .post(`http://${otherIp}:5000/internalPullCompleted?top=${top}`) 
-                            .then(res => {
-                                console.log(`res.data is: ${res.data}`);
-                                compJobs = compJobs.concat(res.data)
+                            .then(response => {
+                                console.log(`res.data is: ${response.data}`);
+                                compJobs = compJobs.concat(response.data)
                                 res.send(compJobs)        
+                                return
                             })
                             .catch(e => console.log(e))
 
