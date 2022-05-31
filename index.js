@@ -56,6 +56,25 @@ app.put('/enqueueCompleted', (req, res) => {
     } 
 })
 
+app.post('/pullCompleted', (req, res) => {    
+    try { 
+        let top = req.query.top 
+        let compJobs = []
+
+        while(top && outQueue.length) {
+            compJobs.push(outQueue.shift())    
+            top--
+        }
+
+        //TODO: 
+        // if(top) -> get from other machine.
+
+        res.send(compJobs)        
+    } catch (error) {
+        handleError(error); 
+    } 
+})
+
 app.get('/info', (req, res) => {
     res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue.length}, lunched: ${count.workers} workers.`)
 })
