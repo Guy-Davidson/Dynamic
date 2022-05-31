@@ -94,6 +94,7 @@ app.post('/pullCompleted', async (req, res) => {
                                 compJobs = compJobs.concat(res.data)
                                 res.send(compJobs)        
                             })
+                            .catch(e => console.log(e))
 
                     }
                 })
