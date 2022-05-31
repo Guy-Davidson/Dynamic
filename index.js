@@ -94,6 +94,11 @@ app.post('/pullCompleted', (req, res) => {
     } 
 })
 
+app.get('ip', (req, res) => {
+    console.log(req.headers['host']);
+    res.send("ok")
+})
+
 app.get('/info', (req, res) => {
     res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue.length}, lunched: ${count.workers} workers.`)
 })
