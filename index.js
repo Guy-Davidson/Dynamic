@@ -88,13 +88,12 @@ app.post('/pullCompleted', async (req, res) => {
                         console.log(myIp);
                         console.log(otherIp);
 
-                        // await axios
-                        //     .post(`pullCompleted`)
-                        //     .post(`http://${otherIp}:5000/internalPullCompleted?top=${top}`) 
-                        //     .then(res => {
-                        //         compJobs = compJobs.concat(res.data)
-                        //         res.send(compJobs)        
-                        //     })
+                        await axios                            
+                            .post(`http://${otherIp}:5000/internalPullCompleted?top=${top}`) 
+                            .then(res => {
+                                compJobs = compJobs.concat(res.data)
+                                res.send(compJobs)        
+                            })
 
                     }
                 })
@@ -122,8 +121,6 @@ app.post('/internalPullCompleted', (req, res) => {
         handleError(error); 
     } 
 })
-
-
 
 app.get('/info', (req, res) => {
     res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue.length}, lunched: ${count.workers} workers.`)
