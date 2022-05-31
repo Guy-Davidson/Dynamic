@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(fileUpload())
 
 const inQueue = []
-initAutoScaler(inQueue)
+// initAutoScaler(inQueue)
 const outQueue = []
 
 app.get('/', (req, res) => {    
@@ -91,6 +91,7 @@ app.post('/pullCompleted', async (req, res) => {
                         await axios                            
                             .post(`http://${otherIp}:5000/internalPullCompleted?top=${top}`) 
                             .then(res => {
+                                console.log(`res.data is: ${res.data}`);
                                 compJobs = compJobs.concat(res.data)
                                 res.send(compJobs)        
                             })
@@ -111,6 +112,7 @@ app.post('/internalPullCompleted', (req, res) => {
     try { 
         let top = parseInt(req.query.top)
         let compJobs = []
+        console.log(`top is: ${top}`);
 
         while(top && outQueue.length) {
             compJobs.push(outQueue.shift())    
