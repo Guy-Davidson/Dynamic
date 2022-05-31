@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(fileUpload())
 
 const inQueue = []
-initAutoScaler(inQueue)
+// initAutoScaler(inQueue)
 const outQueue = []
 
 app.get('/', (req, res) => {    
@@ -80,7 +80,7 @@ app.post('/pullCompleted', async (req, res) => {
                 exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
                     if (err) console.log("Error", err) 
                     else {
-                        let myIp = ipstdout.slice(0, myIp.length - 1)                        
+                        let myIp = ipstdout.slice(0, ipstdout.length - 1)                        
                         
                         //on A otherIp refers to B, and vice versa. 
                         let otherIp = ipsArr.filter(ip => ip !== myIp)[0]
