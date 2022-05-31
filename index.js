@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(fileUpload())
 
 const inQueue = []
-// initAutoScaler(inQueue)
+initAutoScaler(inQueue)
 const outQueue = []
 
 app.get('/', (req, res) => {    
