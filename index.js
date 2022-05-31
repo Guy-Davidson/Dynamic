@@ -100,10 +100,9 @@ app.post('/pullCompleted', async (req, res) => {
 
                     }
                 })
-        }
-
-        res.send(compJobs)        
-
+        } else {
+            res.send(compJobs)        
+        }        
     } catch (error) {
         handleError(error); 
     } 
