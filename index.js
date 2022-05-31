@@ -66,9 +66,27 @@ app.post('/pullCompleted', (req, res) => {
             top--
         }
 
-        //TODO: 
-        // if(top) -> get from other machine.
+        if(top) {
+            let ipsArr = fs.readFileSync('../ips.txt', 'utf8')   
+                .replace('\n','')
+                .trim()
+                .split(',')
+                .map(ip => ip.split(':')[1])
 
+                exec('curl https://checkip.amazonaws.com', (err, ipstdout, stderr)=> {
+                    if (err) console.log("Error", err) 
+                    else {
+                        let myIp = ipstdout
+                        myIp = myIp.slice(0, myIp.length - 1)
+                        
+                        //on A otherIp refers to B, and vice versa. 
+                        let otherIp = ipsArr.filter(ip => ip !== myIp)[0]
+
+                        console.log(req);
+
+                    }
+                })
+        }
         res.send(compJobs)        
     } catch (error) {
         handleError(error); 
