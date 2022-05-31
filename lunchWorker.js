@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 
 const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 
-const lunchWorker = () => {
+const lunchWorker = (count) => {
     ec2.createKeyPair({ KeyName: `Cloud-Computing-${Date.now()}` }, (err, keyData) => {
         if (err) console.log("Error", err) 
         else {           
@@ -64,7 +64,11 @@ const lunchWorker = () => {
                                         .then((data) => {                                
                                             const instanceId = data.Instances[0].InstanceId
                                             console.log("Created instance", instanceId)
-                                            fs.writeFileSync(`workerId.txt`, instanceId)   
+
+
+                                            //TODO: only the last id ends up sending to all the workers.
+
+                                            fs.writeFileSync(`workerId-${count}.txt`, instanceId)   
             
                                             ec2.waitFor('instanceRunning', { InstanceIds: [instanceId] } , (err, data) => {
                                                 if (err) console.log(err, err.stack)
@@ -72,7 +76,7 @@ const lunchWorker = () => {
                                                     let newWorkerIP = data["Reservations"][0]["Instances"][0]["PublicIpAddress"]            
                                                     console.log(newWorkerIP);
                                                     
-                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt workerId.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
+                                                    exec(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt workerId-${count}.txt ubuntu@${newWorkerIP}:/home/ubuntu/`, (err, stdout, stderr)=> {
                                                         if(err) console.log(err);
                                                         else {
                                                             console.log(stdout);

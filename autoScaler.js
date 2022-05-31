@@ -17,7 +17,7 @@ const initAutoScaler = async (queue) => {
             if(queue[mid] && (Date.now() - queue[mid].createdAt) / 1000 > THRESHOLD && count.workers < WORKERS_LIMIT) {            
                 console.log("Lunching a new Worker!");
                 count.workers += 1                
-                lunchWorker()
+                lunchWorker(count.workers)
             } else { console.log("No need for new works.") }
         } else {
             console.log("No need for new works.");
