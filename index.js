@@ -4,7 +4,7 @@ const fileUpload = require('express-fileupload')
 const { v4: uuidv4 } = require('uuid');
 const { exec } = require('child_process');
 const {initAutoScaler, count} = require('./autoScaler');
-const { default: axios } = require('axios');
+const axios = require('axios');
 
 const app = express();
 app.use(express.urlencoded({extended: true}))
