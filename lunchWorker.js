@@ -25,7 +25,7 @@ const lunchWorker = async (count) => {
                 console.log(newWorkerIP);
     
                 try {
-                    await execSync(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt workerId-${count}.txt ubuntu@${newWorkerIP}:/home/ubuntu/`)                                                                                
+                    await execSync(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" onWorkerScript.bash ../ips.txt workerId-${count}.txt parentIp.txt ubuntu@${newWorkerIP}:/home/ubuntu/`)                                                                                
                     await execSync(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "mkdir .aws"`)                                                                                
                     await execSync(`scp -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ../.aws/credentials ../.aws/config ubuntu@${newWorkerIP}:~/.aws/`)                                                                                
                     await execSync(`ssh -i ${keyname}.pem -o "StrictHostKeyChecking=no" -o "ConnectionAttempts=10" ubuntu@${newWorkerIP} "sudo bash ~/onWorkerScript.bash"`)                                                                                
@@ -50,6 +50,7 @@ const initSharedData = async () => {
 
         const { stdout, stderr } = await execSync('curl https://checkip.amazonaws.com')                
         let myIp = stdout.slice(0, stdout.length - 1)                    
+        fs.writeFileSync(`parentIp.txt`, myIp)
         let sgName = `scriptSG-${Date.now()}`
         
         let sgParams = {

@@ -120,6 +120,11 @@ app.get('/info', (req, res) => {
     res.send(`inQueue.length: ${inQueue.length}, outQueue.length: ${outQueue.length}, lunched: ${count.workers} workers.`)
 })
 
+app.post('/countDecrement', (req, res) => {    
+    count.workers -= 1
+    res.send("ok")
+})
+
 const PORT = process.env.PORT || 5000
 
 const handleError = (err) => {
