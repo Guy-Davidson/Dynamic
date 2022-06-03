@@ -34,8 +34,7 @@ app.put('/enqueue', (req, res) => {
     } 
 })
 
-app.get('/dequeue', (req, res) => {
-    console.log("dequeue in action.");
+app.get('/dequeue', (req, res) => {    
     try {         
         if(!inQueue.length) {
             res.send("empty")
@@ -48,8 +47,7 @@ app.get('/dequeue', (req, res) => {
     } 
 })
 
-app.put('/enqueueCompleted', (req, res) => {
-    console.log(`enqueueCompleted in action.`)
+app.put('/enqueueCompleted', (req, res) => {    
     try { 
         outQueue.push(req.body)
         res.send("ok")        
@@ -60,7 +58,6 @@ app.put('/enqueueCompleted', (req, res) => {
 
 app.post('/pullCompleted', async (req, res) => {    
     try {
-
         let top = parseInt(req.query.top)
         let compJobs = []
 
@@ -85,16 +82,11 @@ app.post('/pullCompleted', async (req, res) => {
                         //on A otherIp refers to B, and vice versa. 
                         let otherIp = ipsArr.filter(ip => ip !== myIp)[0]
 
-                        console.log(myIp);
-                        console.log(otherIp);
-
                         await axios                            
                             .post(`http://${otherIp}:5000/internalPullCompleted?top=${top}`) 
-                            .then(response => {
-                                console.log(`res.data is: ${response.data}`);
+                            .then(response => {                                
                                 compJobs = compJobs.concat(response.data)
-                                res.send(compJobs)        
-                                return
+                                res.send(compJobs)                                        
                             })
                             .catch(e => console.log(e))
 
@@ -111,8 +103,7 @@ app.post('/pullCompleted', async (req, res) => {
 app.post('/internalPullCompleted', (req, res) => {    
     try { 
         let top = parseInt(req.query.top)
-        let compJobs = []
-        console.log(`top is: ${top}`);
+        let compJobs = []        
 
         while(top && outQueue.length) {
             compJobs.push(outQueue.shift())    
