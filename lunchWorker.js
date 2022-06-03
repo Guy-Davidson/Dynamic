@@ -1,11 +1,10 @@
 const fs = require('fs')
 const AWS = require('aws-sdk');
 AWS.config.region = 'eu-west-1'
-const { exec } = require('child_process');
 const util = require('util')
 const execSync = util.promisify(require('child_process').exec)
 
-const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
+const ec2 = new AWS.EC2({apiVersion: '2016-11-15'})
 
 const sharedData = {}
 
