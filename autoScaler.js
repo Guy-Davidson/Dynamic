@@ -1,6 +1,6 @@
 const lunchWorker = require('./lunchWorker')
 
-//number of seconds a mid job can wait in queue without lunching a new worker.
+//number of seconds a job can wait in queue without lunching a new worker.
 const THRESHOLD = 5
 //number of seconds in between each queue check.
 const SLEEP_DUR = 10
@@ -13,8 +13,6 @@ const initAutoScaler = async (queue) => {
         if(queue.length && (Date.now() - queue[0].createdAt) / 1000 > THRESHOLD && count.workers < WORKERS_LIMIT) {            
             count.workers += 1                
             lunchWorker(count.workers)
-        }  else {
-            console.log("No need for new works.");
         }               
         await sleep(SLEEP_DUR * 1000)
     }
