@@ -10,7 +10,7 @@ const count = { workers: 0 }
 
 const initAutoScaler = async (queue) => {       
     while(true) {
-        if(queue.length && queue[0] && (Date.now() - queue[0].createdAt) / 1000 > THRESHOLD && count.workers < WORKERS_LIMIT) {            
+        if(queue.length && (Date.now() - queue[0].createdAt) / 1000 > THRESHOLD && count.workers < WORKERS_LIMIT) {            
             count.workers += 1                
             lunchWorker(count.workers)
         }  else {
